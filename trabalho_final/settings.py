@@ -37,6 +37,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'lojas.apps.LojasConfig',
+    'produtos.apps.ProdutosConfig',
+    'promocoes.apps.PromocoesConfig',
 ]
 
 MIDDLEWARE = [
@@ -75,8 +78,10 @@ WSGI_APPLICATION = 'trabalho_final.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'OPTIONS': {
+            'read_default_file': './trabalho_final/mysql.cnf',
+        },
     }
 }
 
