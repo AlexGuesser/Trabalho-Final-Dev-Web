@@ -1,0 +1,13 @@
+{% extends "index.html" %}
+    {% block conteudo %}
+        {% if lista_de_lojas %}
+        <ul>
+            {% for loja in lista_de_lojas %}
+            <li><a href="/lojas/{{ loja.id }}/">{{ loja.nome }}</a></li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <p>Sem lojas cadastradas.</p>
+        {% endif %}
+        <br/>
+    {% endblock %}

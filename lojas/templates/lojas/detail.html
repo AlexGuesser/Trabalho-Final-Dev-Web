@@ -1,0 +1,14 @@
+{% extends "index.html" %}
+
+{% block titulo %}{{ loja_em_destaque.nome }}{% endblock %}
+ 
+{% block conteudo %}
+    <h1>{{ loja_em_destaque.produto }}</h1>
+    <br/>
+    {% if perms.lojas.delete_loja %}
+    {% endif %}
+    <br>
+    {{ loja_em_destaque.nome }}
+    <br>
+    {{ loja_em_destaque.cidade }}
+{% endblock %}

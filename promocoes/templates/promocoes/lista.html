@@ -1,0 +1,13 @@
+{% extends "index.html" %}
+    {% block conteudo %}
+        {% if lista_de_promocoes %}
+        <ul>
+            {% for promocao in lista_de_promocoes %}
+            <li><a href="/promocoes/{{ promocao.id }}/">{{ promocao.produto }}</a></li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <p>Sem promoções cadastradas.</p>
+        {% endif %}
+        <br/>
+    {% endblock %}
