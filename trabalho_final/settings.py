@@ -40,6 +40,9 @@ INSTALLED_APPS = [
     'lojas.apps.LojasConfig',
     'produtos.apps.ProdutosConfig',
     'promocoes.apps.PromocoesConfig',
+    'rest_framework',
+    'api',
+
 ]
 
 MIDDLEWARE = [
@@ -79,9 +82,11 @@ WSGI_APPLICATION = 'trabalho_final.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'OPTIONS': {
-            'read_default_file': './trabalho_final/mysql.cnf',
-        },
+        'NAME': 'trabalho-final-dev-web',
+        'USER': 'root',
+        'PASSWORD': 'alex120995',
+        'HOST': 'localhost',
+        'PORT': '3306',
     }
 }
 
