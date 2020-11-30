@@ -1,9 +1,28 @@
 {% extends "index.html" %}
 
-{% block titulo %}Criando novo produto{% endblock %}
+{% block titulo %}
+
+    {% if perms.produtos.add_produto %}
+        Criando novo produto.
+    {% else %}
+        Acesso restrito.
+    {% endif %}
+
+{% endblock %}
+
 
 {% block conteudo %}
 
-<h1>Criando novo produto</h1>
+    {% if perms.produtos.add_produto %}
+        <h1>Criando novo produto</h1>
+        <form action="{% url 'produtos:new' %}" method="POST">
+            {% csrf_token %}
+            {{ formulario.as_p }}
+            <input type="submit" value="Adicionar">
+        </form>
+    
+    {% else %}
+        <p>Erro: você não tem autorização para visualizar esta página.</p>
+    {% endif %}
 
 {% endblock %}

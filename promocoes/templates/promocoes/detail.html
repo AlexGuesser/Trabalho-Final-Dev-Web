@@ -1,14 +1,21 @@
 {% extends "index.html" %}
 
-{% block titulo %}{{promocao_em_destaque.produto }}{% endblock %}
+{% block titulo %}{{ promocao_em_destaque.nome }}{% endblock %}
  
 {% block conteudo %}
-    <h1>{{ promocao_em_destaque.produto }}</h1>
-    <br/>
-    {% if perms.produtos.delete_produto %}
+    <br>
+    {{ promocao_em_destaque.produto }}
+    <br>
+    {{ promocao_em_destaque.produto.nome_da_categoria }}
+    <br>
+    {{ promocao_em_destaque.loja }} em {{ promocao_em_destaque.loja.cidade }}/{{ promocao_em_destaque.loja.uf }}
+    <br>
+    R$ {{ promocao_em_destaque.preco }}
+    <br>
+    {{ promocao_em_destaque.cupom }}
+    {% if perms.promocoes.edit_promocao %}
+    <br>
+    <a href="{% url 'promocoes:edit' id=promocao_em_destaque.id %}">Editar</a>
     {% endif %}
-    <br>
-    {{ promocao_em_destaque.loja }}
-    <br>
-    {{ promocao_em_destaque.preco }}
+
 {% endblock %}

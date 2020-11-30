@@ -1,15 +1,19 @@
 {% extends "index.html" %}
 
-{% block titulo %}{{produto_em_destaque.nome }}{% endblock %}
+{% block titulo %}{{ produto_em_destaque.nome }}{% endblock %}
  
 {% block conteudo %}
     <h1>{{ produto_em_destaque.nome }}</h1>
     <br/>
-    {% if perms.produtos.delete_produto %}
     {{ produto_em_destaque.imagem }}
-    {% endif %}
     <br>
     {{ produto_em_destaque.descrição }}
     <br>
     {{ produto_em_destaque.nome_da_categoria }}
+    
+    {% if perms.produtos.edit_produto %}
+    <br>
+    <a href="{% url 'produtos:edit' id=produto_em_destaque.id %}">Editar</a>
+    {% endif %}
+
 {% endblock %}

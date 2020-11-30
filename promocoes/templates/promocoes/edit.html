@@ -1,7 +1,34 @@
 {% extends "index.html" %}
 
-{% block titulo %}Editando: {{ promocao_em_destaque.produto }}{% endblock %}
+
+{% block titulo %}
+    {% if perms.promocoes.edit_promocao %}
+    Editando: {{ promocao_em_destaque.produto }}
+    {% else %}
+    Acesso restrito.
+    {% endif %}
+{% endblock %}
 
 {% block conteudo %}
-{{promocao_em_destaque.produto}}
+
+{% if perms.promocoes.edit_promocao %}
+<h1>Editando: {{ promocao_em_destaque.produto }}</h1>
+<form action="{% url 'promocoes:edit' id=promocao_em_destaque.id %}" method="POST">
+    {% csrf_token %}
+    <p>
+        <label for="id_produto">Produto:</label>
+        <input type="text" id="id_produto" value="{{ promocao_em_destaque.produto }}" readonly>
+    </p>
+    <p>
+        <label for="id_loja">Loja:</label>
+        <input type="text" id="id_loja" value="{{ promocao_em_destaque.loja }}" readonly>
+    </p>
+    {{ formulario.as_p }}
+    <input type="submit" value="Ok">
+</form>
+
+{% else %}
+<p>Erro: Você não tem autorização para visualizar esta página.</p>
+{% endif %}
+
 {% endblock %}

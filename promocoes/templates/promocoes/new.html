@@ -1,9 +1,28 @@
 {% extends "index.html" %}
 
-{% block titulo %}Criando nova promoção{% endblock %}
+{% block titulo %}
+
+    {% if perms.promocoes.add_promocao %}
+        Criando nova promoção.
+    {% else %}
+        Acesso restrito.
+    {% endif %}
+
+{% endblock %}
+
 
 {% block conteudo %}
 
-<h1>Criando nova promoção</h1>
+    {% if perms.promocoes.add_promocao %}
+        <h1>Criando nova promoção</h1>
+        <form action="{% url 'promocoes:new' %}" method="POST">
+            {% csrf_token %}
+            {{ formulario.as_p }}
+            <input type="submit" value="Adicionar">
+        </form>
+    
+    {% else %}
+        <p>Erro: você não tem autorização para visualizar esta página.</p>
+    {% endif %}
 
 {% endblock %}

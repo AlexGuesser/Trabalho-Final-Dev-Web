@@ -1,13 +1,19 @@
 {% extends "index.html" %}
-    {% block conteudo %}
+
+{% block conteudo %}
         {% if lista_de_produtos %}
         <ul>
             {% for produto in lista_de_produtos %}
-            <li><a href="/produtos/{{ produto.id }}/">{{ produto.nome }}</a></li>
+            <li><a href="{% url 'produtos:detail' id=produto.id %}">{{ produto.nome }}</a></li>
             {% endfor %}
         </ul>
-        {% else %}
-        <p>Sem produtos cadastrados.</p>
-        {% endif %}
-        <br/>
-    {% endblock %}
+    {% else %}
+        <p>Sem produtos cadastradas.</p>
+    {% endif %}
+    
+    {% if perms.produtos.add_produto %}
+    <br/>
+    <a href="{% url 'produtos:new' %}">Adicionar novo produto.</a>
+    {% endif %}
+    
+{% endblock %}

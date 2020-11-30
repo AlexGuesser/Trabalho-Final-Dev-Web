@@ -1,7 +1,26 @@
 {% extends "index.html" %}
 
-{% block titulo %}Editando: {{ loja_em_destaque.nome }}{% endblock %}
+
+{% block titulo %}
+    {% if perms.lojas.edit_loja %}
+    Editando: {{ loja_em_destaque.nome }}
+    {% else %}
+    Acesso restrito.
+    {% endif %}
+{% endblock %}
 
 {% block conteudo %}
-{{loja_em_destaque.nome}}
+
+{% if perms.lojas.edit_loja %}
+<h1>Editando: {{ loja_em_destaque.nome }}</h1>
+<form action="{% url 'lojas:edit' id=loja_em_destaque.id %}" method="POST">
+    {% csrf_token %}
+    {{ formulario.as_p }}
+    <input type="submit" value="Ok">
+</form>
+
+{% else %}
+<p>Erro: Você não tem autorização para visualizar esta página.</p>
+{% endif %}
+
 {% endblock %}
