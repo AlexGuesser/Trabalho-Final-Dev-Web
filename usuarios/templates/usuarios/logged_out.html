@@ -1,0 +1,10 @@
+{% extends "index.html" %}
+
+{% block titulo %}Volte sempre!{% endblock %}
+ 
+{% block conteudo %}
+
+    <p>Saída bem sucedida.</p>  
+    <a href="{% url 'promocoes:index'%}">Clique aqui para retonar à página inicial.</a>
+
+{% endblock %}

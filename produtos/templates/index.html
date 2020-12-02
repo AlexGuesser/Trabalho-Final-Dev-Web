@@ -18,15 +18,9 @@
 
 
     {% if user.is_authenticated %}
-    <p>Bem vindo, {{ user.username }}. <a href="{% url 'produtos:do_logout' %}?proximapagina={{request.path}}">Logout</a></p>
+    <p>Bem vindo, {{ user.username }}. <a href="{% url 'usuarios:logout' %}?proximapagina={{request.path}}">Logout.</a> <a href="{% url 'usuarios:perfil' %}">Perfil.</a></p>
     {% else %}
-    <form action="{% url 'produtos:do_login'  %}" method="POST">
-        {% csrf_token %}
-        <input type="text" name="usuario">
-        <input type="password" name="senha">
-        <input type="hidden" name="proximapagina" value="{{ request.path }}">
-        <input type="submit">
-    </form>
+        <a href="{% url 'usuarios:login' %}">Faça login.</a>
     {% endif %}
     
 

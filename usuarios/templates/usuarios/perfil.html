@@ -1,0 +1,23 @@
+{% extends "index.html" %}
+
+{% block titulo %}Seu perfil{% endblock %}
+
+{% block conteudo %}
+
+<h1>Edite seu cadastro:</h1>
+{% for erro in erros %}
+<p>{{ erro }}</p>
+{% endfor %}
+<form action="{% url 'usuarios:perfil' %}" method="POST">
+    {% csrf_token %}
+    {{ formulario.as_p }}
+    <p>
+        <input type="submit" value="Ok">
+    </p>
+</form>
+
+Produtos Favoritos:
+
+
+
+{% endblock %}

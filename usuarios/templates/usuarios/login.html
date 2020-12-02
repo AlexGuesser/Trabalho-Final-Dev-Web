@@ -1,0 +1,37 @@
+{% extends "index.html" %}
+
+{% block titulo %}Bem vindo! Faça seu login.{% endblock %}
+ 
+{% block conteudo %}
+
+{% if form.errors %}
+<p>Usuário e/ou senha inválidos, tente novamente.</p>
+{% endif %}
+
+{% if user.is_authenticated %}
+<p>Você está logado como: {{ user.username }}</p>
+<p>Não é você? <a href="{% url 'usuarios:logout' %}">Clique aqui para trocar de usuário</a></p>
+
+{% else %}
+    <form method="post" action="{% url 'usuarios:login' %}">
+    {% csrf_token %}
+    <table>
+    <tr>
+        <td>{{ form.username.label_tag }}</td>
+        <td>{{ form.username }}</td>
+    </tr>
+    <tr>
+        <td>{{ form.password.label_tag }}</td>
+        <td>{{ form.password }}</td>
+    </tr>
+    </table>
+
+    <input type="submit" value="login">
+    <input type="hidden" name="next" value="{{ next }}">
+    </form>
+
+    {# Assumes you setup the password_reset view in your URLconf #}
+    <p><a href="{% url 'usuarios:password_reset' %}">Esqueceu sua senha?</a></p>
+{% endif %}
+
+{% endblock %}

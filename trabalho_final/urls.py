@@ -19,10 +19,11 @@ from django.views.generic import RedirectView
 
 
 urlpatterns = [
-    path('', RedirectView.as_view(url='produtos/', permanent=True)),
     path('admin/', admin.site.urls),
+    path('', RedirectView.as_view(url='produtos/', permanent=True)),
     path('promocoes/', include('promocoes.urls')),
     path('produtos/', include('produtos.urls')),
     path('lojas/', include('lojas.urls')),
+    path('usuarios/', include('usuarios.urls')),
     path('api/', include('api.urls')),
 ]

@@ -1,0 +1,10 @@
+{% extends "index.html" %}
+
+{% block titulo %}Cadastrado com sucesso!{% endblock %}
+
+{% block conteudo %}
+
+<h1>Seu cadastro foi realizado com sucesso.</h1>
+<p><a href="{% url 'usuarios:login' %}">Clique aqui</a> para fazer login e continuar.</p>
+
+{% endblock %}
