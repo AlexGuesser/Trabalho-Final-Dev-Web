@@ -12,6 +12,7 @@ class ProdutoForm(ModelForm):
     class Meta:
         model = Produto
         fields = '__all__'
+        widgets = { 'categoria': forms.Select(attrs={'class': 'browser-default'}), }
         #fields = ['nome', 'cidade', 'uf', 'email'] -> Se quiser usar campos específicos.
         #exclude = ['title'] -> Se quiser excluir algum campo
         #widgets = {

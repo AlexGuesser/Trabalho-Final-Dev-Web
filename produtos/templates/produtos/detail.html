@@ -9,7 +9,7 @@
     <br>
     {{ produto_em_destaque.descrição }}
     <br>
-    {{ produto_em_destaque.nome_da_categoria }}
+    {{ produto_em_destaque.get_categoria_display }}
     
     {% if perms.produtos.edit_produto %}
     <br>

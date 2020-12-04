@@ -1,16 +1,56 @@
 {% extends "index.html" %}
 
 {% block conteudo %}
-        {% if lista_de_promocoes %}
+        {% if pagina %}
         <ul>
-            {% for promocao in lista_de_promocoes %}
+            {% for promocao in pagina %}
             <li><a href="{% url 'promocoes:detail' id=promocao.id %}">{{ promocao.produto }}</a></li>
             {% endfor %}
         </ul>
+        
+        {% if pagina.has_previous %}
+        <a href="?p=1">Início</a>
+        <a href="?p={{ pagina.previous_page_number }}">Anterior</a>
+        {% endif %}
+        Página atual {{ pagina.number }} de {{ pagina.paginator.num_pages }}.
+
+        {% if pagina.has_next %}
+        <a href="?p={{ pagina.next_page_number }}">Proxima</a>
+        <a href="?p={{ pagina.paginator.num_pages }}">Última</a>
+        {% endif %}
+
+        <form action="{% url 'promocoes:index' %}" method="GET">
+            <label for="pagina">Ir para página:</label>
+            <input type="number" id="custom_p" name="p" value="{{ pagina.number }}">
+            <input type="submit" id="submit_p" value="Ir!">
+        </form>
+
     {% else %}
         <p>Sem promoções cadastradas.</p>
     {% endif %}
-    
+    Filtros aplicados:
+    De R$ {{ dicfilters.p_min }} a R$ {{ dicfilters.p_max }}<br>
+    <br><br>Categoria: {{ dicfilters.categoria }}<strong>A FAZER</strong><br><br><br>
+    Loja: {% if dicfilters.loja.0.nome %}{{ dicfilters.loja.0.nome }}{% else %}Nenhuma loja selecionada.{% endif %}
+    <p>
+    <form action="{% url 'promocoes:index' %}" method="GET">
+        <label for="p_min">Preço mínimo:</label>
+        <input type="number" id="p_min" name="p_min" value="0">
+        <label for="p_max">Preço máximo:</label>
+        <input type="number" id="p_max" name="p_max" value="1000000">
+        <label for="cat">Categoria:</label>
+        <input type="text" id="cat" name="cat" value="">
+        
+        <label for="loj">Loja:</label>
+        <select class="browser-default" name="loj" id="loj">
+            <option value="">Todas</option>
+            {% for loja in lista_de_lojas %}
+            <option value="{{ loja.id }}">{{ loja.nome }}</option>
+            {% endfor %}
+        </select>
+        <input type="submit" value="Filtrar!">
+    </form>
+    </p>
     {% if perms.promocoes.add_promocao %}
     <br/>
     <a href="{% url 'promocoes:new' %}">Adicionar nova promoção.</a>

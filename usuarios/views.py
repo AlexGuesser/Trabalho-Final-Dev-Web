@@ -18,7 +18,6 @@ def cadastrar(request):
             usuario.save()
             grupo = Group.objects.get(name='Cliente')
             grupo.user_set.add(usuario)
-            #TODOlinka usuário com tabela de favoritos#
             return render(request, 'usuarios/cadastro_sucesso.html', {  })
         else:
             return render(request, 'usuarios/cadastrar.html', { 'formulario': formulario, 'erros': erros })
