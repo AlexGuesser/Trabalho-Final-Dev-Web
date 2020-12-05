@@ -20,15 +20,3 @@ class Produto(models.Model):
 
     def nome_da_categoria(self):
         return dict(Produto.CATEGORIAS_DISPONIVEIS)[self.categoria]
-        """if self.categoria == 0:
-            return "Hambúrguer de Carne"
-        elif self.categoria == 1:
-            return "Hambúrguer de Frango"
-        elif self.categoria == 2:
-            return "Acompanhamento"
-        elif self.categoria == 3:
-            return "Sobremesa"
-        elif self.categoria == 4:
-            return "Vegetariano"
-        else:
-            return "Categoria inválida"""

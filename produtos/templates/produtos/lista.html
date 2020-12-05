@@ -1,16 +1,27 @@
 {% extends "index.html" %}
 
+{% block titulo %}
+    {% if perms.produtos.edit_produto %}
+        Listando todos os produtos.
+    {% else %}
+        Acesso restrito.
+    {% endif %}
+{% endblock %}
+
 {% block conteudo %}
+    {% if perms.produtos.edit_produto %}
         {% if lista_de_produtos %}
         <ul>
             {% for produto in lista_de_produtos %}
             <li><a href="{% url 'produtos:detail' id=produto.id %}">{{ produto.nome }}</a></li>
             {% endfor %}
         </ul>
-    {% else %}
+        {% else %}
         <p>Sem produtos cadastradas.</p>
+        {% endif %}
+    {% else %}
+    <p>Acesso restrito.</p>
     {% endif %}
-    
     {% if perms.produtos.add_produto %}
     <br/>
     <a href="{% url 'produtos:new' %}">Adicionar novo produto.</a>

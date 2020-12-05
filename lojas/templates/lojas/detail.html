@@ -1,17 +1,26 @@
 {% extends "index.html" %}
 
-{% block titulo %}{{ loja_em_destaque.nome }}{% endblock %}
- 
-{% block conteudo %}
-    <br>
+{% block titulo %}
+    {% if perms.produtos.edit_lojas %}
     {{ loja_em_destaque.nome }}
-    <br>
-    {{ loja_em_destaque.cidade }}/{{ loja_em_destaque.uf }}
-    <br>
-    {{ loja_em_destaque.email }}
-    {% if perms.lojas.edit_loja %}
-    <br>
-    <a href="{% url 'lojas:edit' id=loja_em_destaque.id %}">Editar</a>
+    {% else %}
+    Acesso restrito.
+    {% endif %}
+{% endblock %}
+
+{% block conteudo %}
+    {% if perms.produtos.edit_lojas %}
+        <br>
+        {{ loja_em_destaque.nome }}
+        <br>
+        {{ loja_em_destaque.cidade }}/{{ loja_em_destaque.uf }}
+        <br>
+        {{ loja_em_destaque.email }}
+        <br>    
+        <a href="{% url 'lojas:edit' id=loja_em_destaque.id %}">Editar</a>
+        
+    {% else %}
+    <p>Acesso restrito.</p>
     {% endif %}
 
 {% endblock %}
