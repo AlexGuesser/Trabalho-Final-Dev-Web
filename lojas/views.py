@@ -41,18 +41,3 @@ def new(request):
             return redirect('lojas:detail', id=loja.id)
         else:
             return render(request, 'lojas/new.html', { 'formulario' : formulario })
-
-
-def do_login(request):
-    proximapagina = request.POST['proximapagina']
-    username = request.POST['usuario']
-    password = request.POST['senha']
-    user = authenticate(username=username, password=password)
-    if user:
-        login(request, user)
-    return HttpResponseRedirect(proximapagina)
-
-def do_logout(request):
-    logout(request)
-    proximapagina = request.GET['proximapagina']
-    return HttpResponseRedirect(proximapagina)

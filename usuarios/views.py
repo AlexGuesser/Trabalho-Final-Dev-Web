@@ -7,7 +7,7 @@ from .forms import CadastroCustom, CadastroCustomEdit
 # Create your views here.
 
 def cadastrar(request):
-    if request.method == 'POST' and request.user.is_authenticated:
+    if request.method == 'POST' and not request.user.is_authenticated:
         erros = []
         formulario = CadastroCustom(request.POST)
         comparador = User.objects.filter(email=request.POST['email'])

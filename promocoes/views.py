@@ -2,6 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponseRedirect #HttpResponse
 from django.urls import reverse
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.models import User, Group
 from django.core.paginator import Paginator
 from .models import Promocao
 from lojas.models import Loja
@@ -14,10 +15,12 @@ def index(request, p=1, loj=None, cat=None, p_min=None, p_max=None):
     #Define as variáveis necessárias
     filters = {} #Dicionário com os filtros
     dicfilters = {} #Dicionário de filtros para enfeite do html
+    
     loja = request.GET.get('loj', '')
     categoria = request.GET.get('cat', '')
     p_min = request.GET.get('p_min', 0)
     p_max = request.GET.get('p_max', 99999999999999999999)
+    
     #Certifica que os preços são int e dentro do limite.
     try:
         p_min = int(p_min)
@@ -31,27 +34,27 @@ def index(request, p=1, loj=None, cat=None, p_min=None, p_max=None):
         p_min = 0
     if p_max > 99999999999999999999:
         p_max = 99999999999999999999
+
     #Começa a adicionar os filtros ao dicionário
     filters['preco__gte'] = p_min #sempre haverá valor mínimo
     dicfilters['p_min'] = p_min
     filters['preco__lte'] = p_max #sempre haverá valor máximo
     dicfilters['p_max'] = p_max
+    
     if categoria != '': #se categoria tiver qlqr valor
-        filters['produto__categoria'] = categoria #adiciona o filtro
-        #tempvar = Produto.objects.get(categoria=categoria).values('categoria')
-        #dicfilters['categoria'] = tempvar.nome_do_produto#
-        #print(tempvar.nome_do_produto)
+        filters['produto__categoria'] = categoria #adiciona o filtro ao dict
+        dicfilters['categoria'] = Produto.CATEGORIAS_DISPONIVEIS[int(categoria)][1]
+    
     if loja != '': #mesmo pra loja
         filters['loja__id'] = loja
         dicfilters['loja'] = Loja.objects.filter(id=loja).values('nome')
-    #Query pro DB para buscar a lista de promoções:
-    lista_de_promocoes = Promocao.objects.filter(**filters).order_by('-destaque', 'id') #Aplica os filtros
-    #Lista de lojas para popular o select do filtro de busca:
-    lista_de_lojas = Loja.objects.all()
-    #Fornece o conteúdo do DB pro paginador do Django:
-    paginador = Paginator(lista_de_promocoes, 9)
-    #p = número da página, verificações seguintes impedem que seja negativo ou não inteiro.
-    p = request.GET.get('p', 1)
+
+    lista_de_categorias = Produto.CATEGORIAS_DISPONIVEIS
+
+    lista_de_lojas = Loja.objects.all() #Lista de lojas para popular o select do filtro de busca:
+    lista_de_promocoes = Promocao.objects.filter(**filters).order_by('-destaque', 'id') #Aplica os filtros no dict, promos em destaque vem antes.
+    paginador = Paginator(lista_de_promocoes, 9) #Fornece o conteúdo do DB pro paginador do Django:
+    p = request.GET.get('p', 1) #p = número da página, verificações seguintes impedem que seja negativo ou não inteiro.
     try:
         p = int(p)
     except:
@@ -59,7 +62,7 @@ def index(request, p=1, loj=None, cat=None, p_min=None, p_max=None):
     if p < 1:
         p = 1
     pagina = paginador.get_page(p)
-    return render(request, 'promocoes/lista.html', { 'pagina': pagina, 'lista_de_lojas': lista_de_lojas, 'dicfilters': dicfilters })
+    return render(request, 'promocoes/lista.html', { 'pagina': pagina, 'lista_de_lojas': lista_de_lojas, 'dicfilters': dicfilters, 'lista_de_categorias': lista_de_categorias })
 
 def detail(request, id):
     promocao_em_destaque = get_object_or_404(Promocao, pk=id)
@@ -91,16 +94,20 @@ def new(request):
         else:
             return render(request, 'promocoes/new.html', { 'formulario' : formulario })
 
-def do_login(request):
-    proximapagina = request.POST['proximapagina']
-    username = request.POST['usuario']
-    password = request.POST['senha']
-    user = authenticate(username=username, password=password)
-    if user:
-        login(request, user)
-    return HttpResponseRedirect(proximapagina)
-
-def do_logout(request):
-    logout(request)
-    proximapagina = request.GET['proximapagina']
-    return HttpResponseRedirect(proximapagina)
+def favoritos(request, p=1):
+    lista_de_favoritos = ''
+    if request.user.is_authenticated:
+        usuario = get_object_or_404(User, pk=request.user.id)
+        lista_de_favoritos = usuario.promocao_set.all()
+        p = request.GET.get('p', 1) #p = número da página, verificações seguintes impedem que seja negativo ou não inteiro.
+        try:
+            p = int(p)
+        except:
+            p = 1
+        if p < 1:
+            p = 1
+        paginador = Paginator(lista_de_favoritos, 9) #Fornece o conteúdo do DB pro paginador do Django:
+        pagina = paginador.get_page(p)
+        return render(request, 'promocoes/favoritos.html', { 'pagina': pagina, 'lista_de_favoritos': lista_de_favoritos })
+    else:
+        return render(request, 'promocoes/favoritos.html', { })
