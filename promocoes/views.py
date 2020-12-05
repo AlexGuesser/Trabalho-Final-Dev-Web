@@ -2,6 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponseRedirect #HttpResponse
 from django.urls import reverse
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.models import User, Group
 from django.core.paginator import Paginator
 from .models import Promocao
 from lojas.models import Loja
@@ -92,3 +93,21 @@ def new(request):
             return redirect('promocoes:detail', id=promocao.id)
         else:
             return render(request, 'promocoes/new.html', { 'formulario' : formulario })
+
+def favoritos(request, p=1):
+    lista_de_favoritos = ''
+    if request.user.is_authenticated:
+        usuario = get_object_or_404(User, pk=request.user.id)
+        lista_de_favoritos = usuario.promocao_set.all()
+        p = request.GET.get('p', 1) #p = número da página, verificações seguintes impedem que seja negativo ou não inteiro.
+        try:
+            p = int(p)
+        except:
+            p = 1
+        if p < 1:
+            p = 1
+        paginador = Paginator(lista_de_favoritos, 9) #Fornece o conteúdo do DB pro paginador do Django:
+        pagina = paginador.get_page(p)
+        return render(request, 'promocoes/favoritos.html', { 'pagina': pagina, 'lista_de_favoritos': lista_de_favoritos })
+    else:
+        return render(request, 'promocoes/favoritos.html', { })
