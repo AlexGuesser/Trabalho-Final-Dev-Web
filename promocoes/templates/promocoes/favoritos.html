@@ -1,0 +1,39 @@
+{% extends "index.html" %}
+
+{% block conteudo %}
+
+    {% if user.is_authenticated %}
+
+        {% if pagina %}
+        <ul>
+            {% for promocao in pagina %}
+            <li><a href="{% url 'promocoes:detail' id=promocao.id %}">{{ promocao.produto }}</a></li>
+            {% endfor %}
+        </ul>
+        
+        {% if pagina.has_previous %}
+        <a href="?p=1">Início</a>
+        <a href="?p={{ pagina.previous_page_number }}">Anterior</a>
+        {% endif %}
+        Página atual {{ pagina.number }} de {{ pagina.paginator.num_pages }}.
+
+        {% if pagina.has_next %}
+        <a href="?p={{ pagina.next_page_number }}">Proxima</a>
+        <a href="?p={{ pagina.paginator.num_pages }}">Última</a>
+        {% endif %}
+
+        <form action="{% url 'promocoes:favoritos' %}" method="GET">
+            <label for="pagina">Ir para página:</label>
+            <input type="number" id="custom_p" name="p" value="{{ pagina.number }}">
+            <input type="submit" id="submit_p" value="Ir!">
+        </form>
+
+    {% else %}
+        <p>Sem promoções cadastradas.</p>
+    {% endif %}
+
+    {% else %}
+        <p>Faça login para acessar seus favoritos.</p>
+    {% endif %}
+
+{% endblock %}
