@@ -1,19 +1,27 @@
 {% extends "index.html" %}
 
-{% block titulo %}{{ produto_em_destaque.nome }}{% endblock %}
+{% block titulo %}
+    {% if perms.produtos.edit_produtos %}
+    {{ produto_em_destaque.nome }}
+    {% else %}
+    Acesso restrito.
+    {% endif %}
+{% endblock %}
  
 {% block conteudo %}
-    <h1>{{ produto_em_destaque.nome }}</h1>
-    <br/>
-    {{ produto_em_destaque.imagem }}
-    <br>
-    {{ produto_em_destaque.descrição }}
-    <br>
-    {{ produto_em_destaque.get_categoria_display }}
     
-    {% if perms.produtos.edit_produto %}
-    <br>
-    <a href="{% url 'produtos:edit' id=produto_em_destaque.id %}">Editar</a>
+    {% if perms.produtos.edit_produtos %}
+        <h1>{{ produto_em_destaque.nome }}</h1>
+        <br/>
+        {{ produto_em_destaque.imagem }}
+        <br>
+        {{ produto_em_destaque.descrição }}
+        <br>
+        {{ produto_em_destaque.get_categoria_display }}
+        <br>
+        <a href="{% url 'produtos:edit' id=produto_em_destaque.id %}">Editar</a>
+    {% else %}
+        <p>Acesso restrito.</p>
     {% endif %}
 
 {% endblock %}

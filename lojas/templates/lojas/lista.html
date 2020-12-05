@@ -1,16 +1,27 @@
 {% extends "index.html" %}
 
+{% block titulo %}
+    {% if perms.produtos.edit_lojas %}
+        Listando todas as lojas.
+    {% else %}
+        Acesso restrito.
+    {% endif %}
+{% endblock %}
+
 {% block conteudo %}
+    {% if perms.produtos.edit_lojas %}
         {% if lista_de_lojas %}
         <ul>
             {% for loja in lista_de_lojas %}
             <li><a href="{% url 'lojas:detail' id=loja.id %}">{{ loja.nome }}</a></li>
             {% endfor %}
         </ul>
-    {% else %}
+        {% else %}
         <p>Sem lojas cadastradas.</p>
+        {% endif %}
+    {% else %}
+    <p>Acesso restrito.</p>
     {% endif %}
-    
     {% if perms.lojas.add_loja %}
     <br/>
     <a href="{% url 'lojas:new' %}">Adicionar nova loja.</a>
