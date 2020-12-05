@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     'promocoes.apps.PromocoesConfig',
     'rest_framework',
     'api',
+    'corsheaders'
 ]
 
 MIDDLEWARE = [
@@ -142,3 +143,13 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 LOGIN_REDIRECT_URL = '/'
+
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:8000"
+]
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.BasicAuthentication',
+    ]
+}
