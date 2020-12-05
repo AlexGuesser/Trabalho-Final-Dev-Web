@@ -2,9 +2,29 @@
 
 {% block conteudo %}
         {% if pagina %}
-        <ul>
+        <ul class="collection">
             {% for promocao in pagina %}
-            <li><a href="{% url 'promocoes:detail' id=promocao.id %}">{{ promocao.produto }}</a></li>
+            <li class="collection-item avatar" class="container">
+                <div style="display: flex; flex-direction: row; align-items: center;" >
+                    <img src="{{promocao.produto.imagem}}" style="border-radius: 90%;" width="150" heigth="266"  >
+                    <div style="margin-left: 5%">
+                        <span class="title" style="color: green; font-size: x-large;"><strong>{{ promocao.produto }}</strong></span>
+                        <p style="font-size: large;"><strong>Loja: {{promocao.loja}}</strong> <br>
+                            Preço: R$ {{promocao.preco}}
+                        </p>
+                                            </div>
+                    <a style="margin: auto;" class="waves-effect waves-light btn" href="{% url 'promocoes:detail' id=promocao.id %}">Ver Detalhes</a>
+                </div>
+                <p class="secondary-content">
+                    <label>
+                        <form action="">
+                            <input id="{{promocao.id}}" type="checkbox" />
+                            <span>Favoritos</span>
+                        </form>
+                    </label>
+                </p>
+              </li>
+            
             {% endfor %}
         </ul>
         
