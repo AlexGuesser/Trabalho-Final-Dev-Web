@@ -12,9 +12,11 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 
     <title>{% block titulo %}iComida{% endblock %}</title>
+
+    <style></style>
   </head>
 
-  <body class="container">
+  <body class="container" style="min-width: 50%">
     {% if user.is_authenticated %}
     <p>
       Bem vindo, {{ user.username }}.
@@ -29,21 +31,30 @@
 
     <br />
 
-    {% block conteudo %} {% if lista_de_produtos %}
-    <ul>
-      {% for produto in lista_de_produtos %}
-      <li><a href="/produtos/{{ produto.id }}/">{{ produto.nome }}</a></li>
-      {% endfor %}
-    </ul>
-    {% else %}
-    <p>Sem produtos cadastrados.</p>
-    {% endif %}
-    <br />
-    {% endblock %}
+    {% block conteudo %} {% endblock %}
 
     <br /><br />
 
-    {% block rodape %} Rodapé. {% endblock %}
+    {% block rodape %}
+
+    <footer class="page-footer green">
+      <div class="container">
+        <div class="row">
+          <div class="col l6 s12">
+            <h5 class="white-text">iComida</h5>
+            <p class="grey-text text-lighten-4">
+              Endereço: Rua Padre Carlos Guesser, 3845
+            </p>
+            <p class="grey-text text-lighten-4">Telefone: (48) 98811-5548</p>
+          </div>
+        </div>
+      </div>
+      <div class="footer-copyright">
+        <div class="container">© 2020 Copyright iComida LTDA</div>
+      </div>
+    </footer>
+
+    {% endblock %}
 
     <!-- Bootstrap JS/jQuery/Popper -->
     <script
