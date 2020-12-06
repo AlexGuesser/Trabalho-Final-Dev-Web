@@ -15,9 +15,41 @@
 
     {% if perms.promocoes.add_promocao %}
         <h1>Criando nova promoção</h1>
+        
         <form action="{% url 'promocoes:new' %}" method="POST">
             {% csrf_token %}
-            {{ formulario.as_p }}
+        
+            <p>
+                <label for="{{ formulario.produto.id_for_label }}">
+                    {{ formulario.produto }}
+                    <span>{{ formulario.produto.label }}</span>
+                </label>
+            </p>
+            <p>
+                <label for="{{ formulario.loja.id_for_label }}">
+                    {{ formulario.loja }}
+                    <span>{{ formulario.loja.label }}</span>
+                </label>
+            </p>
+            <p>
+                <label for="{{ formulario.preco.id_for_label }}">
+                    {{ formulario.preco }}
+                    <span>{{ formulario.preco.label }}</span>
+                </label>
+            </p>
+            <p>
+                <label for="{{ formulario.cupom.id_for_label }}">
+                    {{ formulario.cupom }}
+                    <span>{{ formulario.cupom.label }}</span>
+                </label>
+            </p>
+            <p>
+                <label for="{{ formulario.destaque.id_for_label }}">
+                    {{ formulario.destaque }}
+                    <span>{{ formulario.destaque.label }}</span>
+                </label>
+            </p>
+
             <input type="submit" value="Adicionar">
         </form>
     

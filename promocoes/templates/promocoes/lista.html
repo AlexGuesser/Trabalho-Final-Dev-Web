@@ -22,9 +22,9 @@
                     <label>
                         {% if user.is_authenticated %}
                             {% if user in promocao.favoritos.all %}
-                            <a href="{% url 'promocoes:favoritar' p=pagina.number id=promocao.id booleano='F' s='i'%}">Desfavoritar</a>
+                            <a href="{% url 'promocoes:favoritar' p=pagina.number id=promocao.id booleano='F' s='i'%}"><i class="material-icons">grade</i></a>
                             {% else %}
-                            <a href="{% url 'promocoes:favoritar' p=pagina.number id=promocao.id booleano='T' s='i'%}">Favoritar</a>
+                            <a href="{% url 'promocoes:favoritar' p=pagina.number id=promocao.id booleano='T' s='i'%}"><i class="material-icons-outlined">grade</i></a>
                             {% endif %}
                         {% endif %}
                     </label>
@@ -37,7 +37,7 @@
         <a href="?p=1">Início</a>
         <a href="?p={{ pagina.previous_page_number }}">Anterior</a>
         {% endif %}
-        Página atual {{ pagina.number }} de {{ pagina.paginator.num_pages }}.
+        Página {{ pagina.number }} de {{ pagina.paginator.num_pages }}.
 
         {% if pagina.has_next %}
         <a href="?p={{ pagina.next_page_number }}">Proxima</a>
@@ -46,7 +46,7 @@
 
         <form action="{% url 'promocoes:index' %}" method="GET">
             <label for="pagina">Ir para página:</label>
-            <input type="number" class="browser-default" id="custom_p" name="p" value="{{ pagina.number }}">
+            <input type="number" id="custom_p" name="p" value="{{ pagina.number }}" style="width: 50px;">
             <input type="submit" id="submit_p" value="Ir!">
         </form>
 
@@ -60,25 +60,45 @@
     </p>
     <p>
     <form action="{% url 'promocoes:index' %}" method="GET">
-        <label for="p_min">Preço mínimo:</label>
+    <p> 
+        <label for="p_min">
         <input type="number" id="p_min" name="p_min" value="0">
-        <label for="p_max">Preço máximo:</label>
+        <span>Preço mínimo</span>
+        </label>
+    </p>
+    <p>
+        <label for="p_max">
         <input type="number" id="p_max" name="p_max" value="1000000">
-        <label for="cat">Categoria:</label>
+        <span>Preço máximo</span>
+        </label>
+    </p>
+    <p>
+        <label for="cat">
         <select class="browser-default" name="cat" id="cat">
             <option value="">Todas</option>
             {% for categoria in lista_de_categorias %}
             <option value="{{ categoria.0 }}">{{ categoria.1 }}</option>
             {% endfor %}
-        </select>        
-        <label for="loj">Loja:</label>
+        </select>
+        <span>Categoria</span>
+        </label>
+    </p>
+    <p>
+        <label for="loj">
         <select class="browser-default" name="loj" id="loj">
             <option value="">Todas</option>
             {% for loja in lista_de_lojas %}
             <option value="{{ loja.id }}">{{ loja.nome }}</option>
             {% endfor %}
         </select>
-        <input type="submit" value="Filtrar!">
+        <span>Loja</span>
+        </label>
+    </p>
+    <p>
+        <label for="submit">
+        <span><input type="submit" id="submit" value="Filtrar!"></span>
+        </label>
+    </p>
     </form>
     </p>
     {% if perms.promocoes.add_promocao %}

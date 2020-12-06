@@ -16,14 +16,34 @@
 <form action="{% url 'promocoes:edit' id=promocao_em_destaque.id %}" method="POST">
     {% csrf_token %}
     <p>
-        <label for="id_produto">Produto:</label>
+        <label for="id_produto">
         <input type="text" id="id_produto" value="{{ promocao_em_destaque.produto }}" readonly>
+        <span>Produto</span>
     </p>
     <p>
-        <label for="id_loja">Loja:</label>
+        <label for="id_loja">
         <input type="text" id="id_loja" value="{{ promocao_em_destaque.loja }}" readonly>
+        <span>Loja</span>
     </p>
-    {{ formulario.as_p }}
+    <p>
+        <label for="{{ formulario.preco.id_for_label }}">
+            {{ formulario.preco }}
+            <span>{{ formulario.preco.label }}</span>
+        </label>
+    </p>
+    <p>
+        <label for="{{ formulario.cupom.id_for_label }}">
+            {{ formulario.cupom }}
+            <span>{{ formulario.cupom.label }}</span>
+        </label>
+    </p>
+    <p>
+        <label for="{{ formulario.destaque.id_for_label }}">
+            {{ formulario.destaque }}
+            <span>{{ formulario.destaque.label }}</span>
+        </label>
+    </p>
+
     <input type="submit" value="Ok">
 </form>
 

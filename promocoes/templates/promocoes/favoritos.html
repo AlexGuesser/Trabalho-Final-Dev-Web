@@ -22,9 +22,9 @@
                     <label>
                         {% if user.is_authenticated %}
                             {% if user in promocao.favoritos.all %}
-                            <a href="{% url 'promocoes:favoritar' p=pagina.number id=promocao.id booleano='F' s='f'%}">Desfavoritar</a>
+                            <a href="{% url 'promocoes:favoritar' p=pagina.number id=promocao.id booleano='F' s='f'%}"><i class="material-icons">grade</i></a>
                             {% else %}
-                            <a href="{% url 'promocoes:favoritar' p=pagina.number id=promocao.id booleano='T' s='f'%}">Favoritar</a>
+                            <a href="{% url 'promocoes:favoritar' p=pagina.number id=promocao.id booleano='T' s='f'%}"><i class="material-icons-outlined">grade</i></a>
                             {% endif %}
                         {% endif %}
                     </label>
@@ -39,7 +39,7 @@
         <a href="?p=1">Início</a>
         <a href="?p={{ pagina.previous_page_number }}">Anterior</a>
         {% endif %}
-        Página atual {{ pagina.number }} de {{ pagina.paginator.num_pages }}.
+        Página {{ pagina.number }} de {{ pagina.paginator.num_pages }}.
 
         {% if pagina.has_next %}
         <a href="?p={{ pagina.next_page_number }}">Proxima</a>
@@ -48,7 +48,7 @@
 
         <form action="{% url 'promocoes:favoritos' %}" method="GET">
             <label for="pagina">Ir para página:</label>
-            <input type="number" id="custom_p" name="p" value="{{ pagina.number }}">
+            <input type="number" id="custom_p" name="p" value="{{ pagina.number }}" style="width: 50px;">
             <input type="submit" id="submit_p" value="Ir!">
         </form>
 
