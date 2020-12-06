@@ -22,18 +22,20 @@
   </head>
 
   <body class="container" style="min-width: 50%">
-    {% if user.is_authenticated %}
     <p>
+      <a href="{% url 'promocoes:index' %}">Home.</a>
+    {% if user.is_authenticated %}
       Bem vindo, {{ user.username }}.
-      <a href="{% url 'usuarios:logout' %}?proximapagina={{request.path}}"
-        >Logout.</a
-      >
+      <a href="{% url 'usuarios:logout' %}?proximapagina={{request.path}}">Logout.</a>
       <a href="{% url 'usuarios:perfil' %}">Perfil.</a>
-    </p>
+      <a href="{% url 'promocoes:favoritos' %}">Favoritos.</a>
+      {% if perms.produtos.edit_produto %}<a href="{% url 'produtos:index' %}">Admin1.</a> {% endif %}
+      {% if perms.loja.edit_loja %}<a href="{% url 'lojas:index' %}">Admin2.</a> {% endif %}
     {% else %}
     <a href="{% url 'usuarios:login' %}">Faça login</a> ou
     <a href="{% url 'usuarios:cadastrar' %}">crie sua conta.</a>
     {% endif %}
+  </p>
 
     <br />
 

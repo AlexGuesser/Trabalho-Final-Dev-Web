@@ -41,7 +41,7 @@
 
         <form action="{% url 'promocoes:index' %}" method="GET">
             <label for="pagina">Ir para página:</label>
-            <input type="number" id="custom_p" name="p" value="{{ pagina.number }}">
+            <input type="number" class="browser-default" id="custom_p" name="p" value="{{ pagina.number }}">
             <input type="submit" id="submit_p" value="Ir!">
         </form>
 
