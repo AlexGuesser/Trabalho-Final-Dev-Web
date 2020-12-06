@@ -9,7 +9,10 @@ class PromocaoForm(ModelForm):
         exclude = ['favoritos']
         #fields = ['nome', 'cidade', 'uf', 'email'] -> Se quiser usar campos específicos.
         #exclude = ['title'] -> Se quiser excluir algum campo
-        #widgets = { 'produto': forms.TextInput(attrs={'class': 'CSSVaiAqui'}), }
+        widgets = {
+            'produto': forms.Select(attrs={'class': 'browser-default'}),
+            'loja': forms.Select(attrs={'class':'browser-default'}),
+        }
 
 
 class PromocaoEditForm(ModelForm):
