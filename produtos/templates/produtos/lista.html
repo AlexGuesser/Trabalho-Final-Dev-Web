@@ -1,29 +1,37 @@
-{% extends "index.html" %} {% block conteudo %} {% if lista_de_produtos %}
+{% extends "index.html" %}
+
+{% block titulo %}
+    {% if perms.produtos.edit_produtos %}
+        Listando todos os produtos.
+    {% else %}
+        Acesso restrito.
+    {% endif %}
+{% endblock %}
+
+{% block conteudo %} 
+{% if perms.produtos.edit_produto %}
+{% if lista_de_produtos %}
+<p>Bem vindo à área administrativa. Selecione um produto para editar. <a class="waves-effect waves-light btn" href="{% url 'produtos:new' %}">Novo produto</a></p>
 <ul class="collection">
   {% for produto in lista_de_produtos %}
   <li class="collection-item avatar">
-    <div style="display: flex; flex-direction: row">
-      <img
-        class="materialboxed"
-        width="300"
-        heigth="532"
-        src="{{produto.imagem}}"
-      />
+    <div style="display: flex; flex-direction: row; align-items: center;">
+      <img style="border-radius: 90%;" width="150" heigth="266" src="{{produto.imagem}}"/>
       <div class="container">
-        <span class="title"><strong>{{produto.nome}}</strong></span>
+        <span class="title"><strong><a href="{% url 'produtos:detail' id=produto.id %}">{{produto.nome}}</a></strong></span>
         <p>{{produto.descrição}}</p>
       </div>
     </div>
-    <a href="#!" class="secondary-content">{{produto.nome_da_categoria}}</a>
+    <p class="secondary-content">{{produto.nome_da_categoria}}</p>
   </li>
   <!-- <li><a href="/produtos/{{ produto.id }}/">{{ produto.nome }}</a></li> -->
   {% endfor %}
 </ul>
 {% else %}
-<p>Sem produtos cadastradas.</p>
-{% endif %} {% if perms.produtos.add_produto %}
-<br />
-<a class="waves-effect waves-light btn" href="{% url 'produtos:new' %}"
-  >Adicionar novo produto</a
->
+<p>Sem produtos cadastrados.</p>
+{% endif %}
+{% if perms.produtos.add_produto %}
+{% endif %}
+{% else %}
+<p>Área restrita</p>
 {% endif %} {% endblock %}
