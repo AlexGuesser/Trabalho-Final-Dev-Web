@@ -20,10 +20,13 @@
                 </div>
                 <p class="secondary-content">
                     <label>
-                        <form action="">
-                            <input id="{{promocao.id}}" type="checkbox" />
-                            <span>Favoritos</span>
-                        </form>
+                        {% if user.is_authenticated %}
+                            {% if user in promocao.favoritos.all %}
+                            <a href="{% url 'promocoes:favoritar' p=pagina.number id=promocao.id booleano='F' s='f'%}">Desfavoritar</a>
+                            {% else %}
+                            <a href="{% url 'promocoes:favoritar' p=pagina.number id=promocao.id booleano='T' s='f'%}">Favoritar</a>
+                            {% endif %}
+                        {% endif %}
                     </label>
                 </p>
               </li>

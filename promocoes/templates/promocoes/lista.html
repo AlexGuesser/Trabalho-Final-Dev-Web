@@ -1,7 +1,10 @@
 {% extends "index.html" %}
 
 {% block conteudo %}
-        {% if pagina %}
+    {% if perms.promocoes.add_promocao %}
+    <a class="waves-effect waves-light btn" href="{% url 'promocoes:new' %}">Nova promoção</a></p>        
+    {% endif %}
+    {% if pagina %}
         <ul class="collection">
             {% for promocao in pagina %}
             <li class="collection-item avatar" class="container">
@@ -17,14 +20,16 @@
                 </div>
                 <p class="secondary-content">
                     <label>
-                        <form id="{{promocao.id}}" action="/favoritar/" method="post">
-                            <input id="{{promocao.id}}" type="checkbox" onchange="document.getElementById('{{promocao.id}}').submit()" >
-                            <span>Favoritos</span>
-                        </form>
+                        {% if user.is_authenticated %}
+                            {% if user in promocao.favoritos.all %}
+                            <a href="{% url 'promocoes:favoritar' p=pagina.number id=promocao.id booleano='F' s='i'%}">Desfavoritar</a>
+                            {% else %}
+                            <a href="{% url 'promocoes:favoritar' p=pagina.number id=promocao.id booleano='T' s='i'%}">Favoritar</a>
+                            {% endif %}
+                        {% endif %}
                     </label>
                 </p>
               </li>
-            
             {% endfor %}
         </ul>
         

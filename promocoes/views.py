@@ -110,7 +110,8 @@ def favoritos(request, p=1):
     lista_de_favoritos = ''
     if request.user.is_authenticated:
         usuario = get_object_or_404(User, pk=request.user.id)
-        lista_de_favoritos = usuario.promocao_set.all()
+        lista_de_favoritos = usuario.promocao_set.all().order_by('id')
+        #lista_de_favoritos = lista_de_favoritos.order_by('id')
         # p = número da página, verificações seguintes impedem que seja negativo ou não inteiro.
         p = request.GET.get('p', 1)
         try:
@@ -127,6 +128,18 @@ def favoritos(request, p=1):
         return render(request, 'promocoes/favoritos.html', {})
 
 
-def favoritar(request):
-    print("Request: " + request)
-    return render(request, 'promocoes.html', {})
+def favoritar(request, p, id, booleano, s):
+    if request.method == 'GET':
+        usuario = get_object_or_404(User, pk=request.user.id)
+        promocao = get_object_or_404(Promocao, pk=id)
+        if booleano == "T":
+            usuario.promocao_set.add(promocao)
+        else:
+            usuario.promocao_set.remove(promocao)
+        if s == 'i':
+            return redirect(reverse('promocoes:index') + "?p=" + str(p))
+        else:
+            return redirect(reverse('promocoes:favoritos') + "?p=" + str(p))
+    if request.method == 'POST':
+        return redirect('promocoes:index')
+
