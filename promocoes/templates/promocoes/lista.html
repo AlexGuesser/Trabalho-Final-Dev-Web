@@ -17,8 +17,8 @@
                 </div>
                 <p class="secondary-content">
                     <label>
-                        <form action="">
-                            <input id="{{promocao.id}}" type="checkbox" />
+                        <form id="{{promocao.id}}" action="/favoritar/" method="post">
+                            <input id="{{promocao.id}}" type="checkbox" onchange="document.getElementById('{{promocao.id}}').submit()" >
                             <span>Favoritos</span>
                         </form>
                     </label>
