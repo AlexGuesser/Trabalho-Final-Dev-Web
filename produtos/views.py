@@ -8,7 +8,7 @@ from django.contrib.auth import authenticate, login, logout
 # Create your views here.
 
 def index(request):
-    lista_de_produtos = Produto.objects.order_by('id')[:30]
+    lista_de_produtos = Produto.objects.order_by('-id')
     context = { 'lista_de_produtos': lista_de_produtos }
     return render(request, 'produtos/lista.html', context)
 

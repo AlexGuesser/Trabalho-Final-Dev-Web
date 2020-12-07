@@ -8,7 +8,7 @@ from .forms import LojaForm
 # Create your views here.
 
 def index(request):
-    lista_de_lojas = Loja.objects.order_by('id')[:30]
+    lista_de_lojas = Loja.objects.order_by('-id')
     context = { 'lista_de_lojas': lista_de_lojas }
     return render(request, 'lojas/lista.html', context)
 
