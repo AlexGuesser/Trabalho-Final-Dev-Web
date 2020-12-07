@@ -8,7 +8,10 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"
     />
     <!--Import Google Icon Font-->
-    <link href="https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined" rel="stylesheet">
+    <link
+      href="https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined"
+      rel="stylesheet"
+    />
 
     <!-- Compiled and minified JavaScript -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
@@ -19,20 +22,57 @@
   </head>
 
   <body class="container" style="min-width: 50%">
-    <p>
-      <a href="{% url 'promocoes:index' %}">Home.</a>
-    {% if user.is_authenticated %}
-      Bem vindo, {{ user.username }}.
-      <a href="{% url 'usuarios:logout' %}?proximapagina={{request.path}}">Logout.</a>
-      <a href="{% url 'usuarios:perfil' %}">Perfil.</a>
-      <a href="{% url 'promocoes:favoritos' %}">Favoritos.</a>
-      {% if perms.produtos.edit_produto %}<a href="{% url 'produtos:index' %}">Admin1.</a> {% endif %}
-      {% if perms.loja.edit_loja %}<a href="{% url 'lojas:index' %}">Admin2.</a> {% endif %}
-    {% else %}
-    <a href="{% url 'usuarios:login' %}">Faça login</a> ou
-    <a href="{% url 'usuarios:cadastrar' %}">crie sua conta.</a>
-    {% endif %}
-  </p>
+    <nav class="nav-extended green">
+      <div class="nav-wrapper" style="padding: 10px">
+        <a href="#" class="brand-logo">iComida</a>
+        <a href="#" data-target="mobile-demo" class="sidenav-trigger"
+          ><i class="material-icons">menu</i></a
+        >
+        <ul id="nav-mobile" class="right hide-on-med-and-down">
+          {% if user.is_authenticated %}
+          <li class="title">
+            <strong> Bem Vindo, {{ user.username }}</strong>
+          </li>
+          {% endif %} {% if user.is_authenticated %}
+          <li>
+            <a href="{% url 'usuarios:logout' %}?proximapagina={{request.path}}"
+              >LOGOUT</a
+            >
+          </li>
+          {% else %}
+          <li>
+            <a href="{% url 'usuarios:login' %}">FAÇA LOGIN</a>
+          </li>
+          <li>
+            <a href="{% url 'usuarios:cadastrar' %}">CRIE SUA CONTA</a>
+          </li>
+          {% endif %}
+        </ul>
+      </div>
+      <div class="nav-content">
+        <ul class="tabs tabs-transparent">
+          {% if user.is_authenticated %}
+          <li>
+            <a href="{% url 'promocoes:index' %}">HOME</a>
+          </li>
+          <li>
+            <a href="{% url 'usuarios:perfil' %}">PERFIL</a>
+          </li>
+          <li>
+            <a href="{% url 'promocoes:favoritos' %}">FAVORITOS</a>
+          </li>
+          {% if perms.produtos.edit_produto %}
+          <li><a href="{% url 'produtos:index' %}">ADMIN - PRODUTOS</a></li>
+          {% endif %} {% if perms.loja.edit_loja %}
+          <li><a href="{% url 'lojas:index' %}">ADMIN - LOJAS</a></li>
+          {% endif %} {% else %}
+          <li>
+            <a href="{% url 'promocoes:index' %}">HOME</a>
+          </li>
+          {% endif %}
+        </ul>
+      </div>
+    </nav>
 
     <br />
 
