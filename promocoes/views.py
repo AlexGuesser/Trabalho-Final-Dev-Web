@@ -57,7 +57,7 @@ def index(request, p=1, loj=None, cat=None, p_min=None, p_max=None):
     lista_de_lojas = Loja.objects.all()
     # Aplica os filtros no dict, promos em destaque vem antes.
     lista_de_promocoes = Promocao.objects.filter(
-        **filters).order_by('-destaque', 'id')
+        **filters).order_by('-destaque', '-id')
     # Fornece o conteúdo do DB pro paginador do Django:
     paginador = Paginator(lista_de_promocoes, 9)
     # p = número da página, verificações seguintes impedem que seja negativo ou não inteiro.
@@ -110,7 +110,7 @@ def favoritos(request, p=1):
     lista_de_favoritos = ''
     if request.user.is_authenticated:
         usuario = get_object_or_404(User, pk=request.user.id)
-        lista_de_favoritos = usuario.promocao_set.all().order_by('id')
+        lista_de_favoritos = usuario.promocao_set.all().order_by('-id')
         #lista_de_favoritos = lista_de_favoritos.order_by('id')
         # p = número da página, verificações seguintes impedem que seja negativo ou não inteiro.
         p = request.GET.get('p', 1)
