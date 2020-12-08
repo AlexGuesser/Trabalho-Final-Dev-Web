@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.contrib import admin
 
 # Create your models here.
 
@@ -17,3 +18,7 @@ class Promocao(models.Model):
 
     def __str__(self):
         return str(self.produto)
+
+class PromocaoAdmin(admin.ModelAdmin):
+    model = Promocao
+    exclude = ('favoritos',)

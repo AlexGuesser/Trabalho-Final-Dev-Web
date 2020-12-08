@@ -14,8 +14,8 @@ from .forms import PromocaoForm, PromocaoEditForm
 
 def index(request, p=1, loj=None, cat=None, p_min=None, p_max=None):
     # Define as variáveis necessárias
-    filters = {}  # Dicionário com os filtros
-    dicfilters = {}  # Dicionário de filtros para enfeite do html
+    filters = {}  # Dicionário com os filtros a serem aplicados no sql
+    dicfilters = {}  # Dicionário com a lista de filtros aplicados para exibição no html
 
     loja = request.GET.get('loj', '')
     categoria = request.GET.get('cat', '')
@@ -61,6 +61,7 @@ def index(request, p=1, loj=None, cat=None, p_min=None, p_max=None):
     # Fornece o conteúdo do DB pro paginador do Django:
     paginador = Paginator(lista_de_promocoes, 9)
     # p = número da página, verificações seguintes impedem que seja negativo ou não inteiro.
+    # páginas além do limite do paginador são tratadas pelo próprio paginador.
     p = request.GET.get('p', 1)
     try:
         p = int(p)
