@@ -1,116 +1,104 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-  <head>
-    <meta charset="utf-8" />
-    <!-- Compiled and minified CSS -->
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"
-    />
-    <!--Import Google Icon Font-->
-    <link
-      href="https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined"
-      rel="stylesheet"
-    />
 
-    <!-- Compiled and minified JavaScript -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+<head>
+  <meta charset="utf-8" />
+  <!-- Compiled and minified CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" />
+  <!--Import Google Icon Font-->
+  <link href="https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined" rel="stylesheet" />
 
-    <title>{% block titulo %}iComida{% endblock %}</title>
+  <!-- Compiled and minified JavaScript -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 
-    <style></style>
-  </head>
+  <title>{% block titulo %}iComida{% endblock %}</title>
 
-  <body class="container" style="min-width: 50%">
-    <nav class="nav-extended green">
-      <div class="nav-wrapper" style="padding: 10px">
-        <a href="#" class="brand-logo">iComida</a>
-        <a href="#" data-target="mobile-demo" class="sidenav-trigger"
-          ><i class="material-icons">menu</i></a
-        >
-        <ul id="nav-mobile" class="right hide-on-med-and-down">
-          {% if user.is_authenticated %}
-          <li class="title">
-            <strong> Bem Vindo, {{ user.username }}</strong>
-          </li>
-          {% endif %} {% if user.is_authenticated %}
-          <li>
-            <a href="{% url 'usuarios:logout' %}?proximapagina={{request.path}}"
-              >LOGOUT</a
-            >
-          </li>
-          {% else %}
-          <li>
-            <a href="{% url 'usuarios:login' %}">FAÇA LOGIN</a>
-          </li>
-          <li>
-            <a href="{% url 'usuarios:cadastrar' %}">CRIE SUA CONTA</a>
-          </li>
-          {% endif %}
-        </ul>
-      </div>
-      <div class="nav-content">
-        <ul class="tabs tabs-transparent">
-          {% if user.is_authenticated %}
-          <li>
-            <a href="{% url 'promocoes:index' %}">HOME</a>
-          </li>
-          <li>
-            <a href="{% url 'usuarios:perfil' %}">PERFIL</a>
-          </li>
-          <li>
-            <a href="{% url 'promocoes:favoritos' %}">FAVORITOS</a>
-          </li>
-          {% if perms.produtos.edit_produto %}
-          <li><a href="{% url 'produtos:index' %}">ADMIN - PRODUTOS</a></li>
-          {% endif %} {% if perms.loja.edit_loja %}
-          <li><a href="{% url 'lojas:index' %}">ADMIN - LOJAS</a></li>
-          {% endif %} {% else %}
-          <li>
-            <a href="{% url 'promocoes:index' %}">HOME</a>
-          </li>
-          {% endif %}
-        </ul>
-      </div>
-    </nav>
+  <style></style>
+</head>
 
-    <br />
+<body class="container">
+  <nav class="nav-extended green">
+    <div class="nav-wrapper" style="padding: 10px">
+      <a href="#" class="brand-logo">iComida</a>
+      <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+      <ul id="nav-mobile" class="right hide-on-med-and-down">
+        {% if user.is_authenticated %}
+        <li class="title">
+          <strong> Bem Vindo, {{ user.username }}</strong>
+        </li>
+        {% endif %} {% if user.is_authenticated %}
+        <li>
+          <a href="{% url 'usuarios:logout' %}?proximapagina={{request.path}}">LOGOUT</a>
+        </li>
+        {% else %}
+        <li>
+          <a href="{% url 'usuarios:login' %}">FAÇA LOGIN</a>
+        </li>
+        <li>
+          <a href="{% url 'usuarios:cadastrar' %}">CRIE SUA CONTA</a>
+        </li>
+        {% endif %}
+      </ul>
+    </div>
+    <div class="nav-content">
+      <ul class="tabs tabs-transparent">
+        {% if user.is_authenticated %}
+        <li>
+          <a href="{% url 'promocoes:index' %}">HOME</a>
+        </li>
+        <li>
+          <a href="{% url 'usuarios:perfil' %}">PERFIL</a>
+        </li>
+        <li>
+          <a href="{% url 'promocoes:favoritos' %}">FAVORITOS</a>
+        </li>
+        {% if perms.produtos.edit_produto %}
+        <li><a href="{% url 'produtos:index' %}">ADMIN - PRODUTOS</a></li>
+        {% endif %} {% if perms.loja.edit_loja %}
+        <li><a href="{% url 'lojas:index' %}">ADMIN - LOJAS</a></li>
+        {% endif %} {% else %}
+        <li>
+          <a href="{% url 'promocoes:index' %}">HOME</a>
+        </li>
+        {% endif %}
+      </ul>
+    </div>
+  </nav>
 
-    {% block conteudo %} {% endblock %}
+  <br />
 
-    <br /><br />
+  {% block conteudo %} {% endblock %}
 
-    {% block rodape %}
+  <br /><br />
 
-    <footer class="page-footer green">
-      <div class="container">
-        <div class="row">
-          <div class="col l6 s12">
-            <h5 class="white-text">iComida</h5>
-            <p class="grey-text text-lighten-4">
-              Endereço: Rua Padre Carlos Guesser, 3845
-            </p>
-            <p class="grey-text text-lighten-4">Telefone: (48) 98811-5548</p>
-          </div>
+  {% block rodape %}
+
+  <footer class="page-footer green">
+    <div class="container">
+      <div class="row">
+        <div class="col l6 s12">
+          <h5 class="white-text">iComida</h5>
+          <p class="grey-text text-lighten-4">
+            Endereço: Rua Padre Carlos Guesser, 3845
+          </p>
+          <p class="grey-text text-lighten-4">Telefone: (48) 98811-5548</p>
         </div>
       </div>
-      <div class="footer-copyright">
-        <div class="container">© 2020 Copyright iComida LTDA</div>
-      </div>
-    </footer>
+    </div>
+    <div class="footer-copyright">
+      <div class="container">© 2020 Copyright iComida LTDA</div>
+    </div>
+  </footer>
 
-    {% endblock %}
+  {% endblock %}
 
-    <!-- Bootstrap JS/jQuery/Popper -->
-    <script
-      src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
-      integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
-      crossorigin="anonymous"
-    ></script>
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx"
-      crossorigin="anonymous"
-    ></script>
-  </body>
+  <!-- Bootstrap JS/jQuery/Popper -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+    integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx"
+    crossorigin="anonymous"></script>
+</body>
+
 </html>

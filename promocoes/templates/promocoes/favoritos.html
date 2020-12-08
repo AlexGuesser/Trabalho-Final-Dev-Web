@@ -2,62 +2,74 @@
 
 {% block conteudo %}
 
-    {% if user.is_authenticated %}
+{% if user.is_authenticated %}
 
-        {% if pagina %}
-        <ul class="collection">
-            {% for promocao in pagina %}
-            <li class="collection-item avatar" class="container">
-                <div style="display: flex; flex-direction: row; align-items: center;" >
-                    <img src="{{promocao.produto.imagem}}" style="border-radius: 90%;" width="150" heigth="266"  >
-                    <div style="margin-left: 5%">
-                        <span class="title" style="color: green; font-size: x-large;"><strong>{{ promocao.produto }}</strong></span>
-                        <p style="font-size: large;"><strong>Loja: {{promocao.loja}}</strong> <br>
-                            Preço: R$ {{promocao.preco}}
-                        </p>
-                                            </div>
-                    <a style="margin: auto;" class="waves-effect waves-light btn" href="{% url 'promocoes:detail' id=promocao.id %}">Ver Detalhes</a>
-                </div>
-                <p class="secondary-content">
-                    <label>
-                        {% if user.is_authenticated %}
-                            {% if user in promocao.favoritos.all %}
-                            <a href="{% url 'promocoes:favoritar' p=pagina.number id=promocao.id booleano='F' s='f'%}"><i class="material-icons">grade</i></a>
-                            {% else %}
-                            <a href="{% url 'promocoes:favoritar' p=pagina.number id=promocao.id booleano='T' s='f'%}"><i class="material-icons-outlined">grade</i></a>
-                            {% endif %}
-                        {% endif %}
-                    </label>
+{% if pagina %}
+<ul class="collection">
+    {% for promocao in pagina %}
+    <li class="collection-item avatar" class="container">
+        <div style="display: flex; flex-direction: row; align-items: center;">
+            <img src="{{promocao.produto.imagem}}" style="border-radius: 90%;" width="150" heigth="266">
+            <div style="margin-left: 5%">
+                <span class="title"
+                    style="color: green; font-size: x-large;"><strong>{{ promocao.produto }}</strong></span>
+                <p style="font-size: large;"><strong>Loja: {{promocao.loja}}</strong> <br>
+                    Preço: R$ {{promocao.preco}}
                 </p>
-              </li>
-            
-            {% endfor %}
-        </ul>
+            </div>
+            <a style="margin: auto;" class="waves-effect waves-light btn"
+                href="{% url 'promocoes:detail' id=promocao.id %}">Ver Detalhes</a>
+        </div>
+        <p class="secondary-content">
+            <label>
+                {% if user.is_authenticated %}
+                {% if user in promocao.favoritos.all %}
+                <a href="{% url 'promocoes:favoritar' p=pagina.number id=promocao.id booleano='F' s='f'%}"><i
+                        class="material-icons">grade</i></a>
+                {% else %}
+                <a href="{% url 'promocoes:favoritar' p=pagina.number id=promocao.id booleano='T' s='f'%}"><i
+                        class="material-icons-outlined">grade</i></a>
+                {% endif %}
+                {% endif %}
+            </label>
+        </p>
+    </li>
 
-        
+    {% endfor %}
+</ul>
+
+
+{% else %}
+<p>Sem promoções cadastradas.</p>
+{% endif %}
+
+<div style="display: flex; flex-direction: row; align-items: center; justify-content: space-between;">
+    <div>
         {% if pagina.has_previous %}
         <a href="?p=1">Início</a>
         <a href="?p={{ pagina.previous_page_number }}">Anterior</a>
         {% endif %}
-        Página {{ pagina.number }} de {{ pagina.paginator.num_pages }}.
+        Página {{ pagina.number }} de {{ pagina.paginator.num_pages }}
 
         {% if pagina.has_next %}
         <a href="?p={{ pagina.next_page_number }}">Proxima</a>
         <a href="?p={{ pagina.paginator.num_pages }}">Última</a>
         {% endif %}
+    </div>
 
-        <form action="{% url 'promocoes:favoritos' %}" method="GET">
+    <div>
+
+        <form action="{% url 'promocoes:index' %}" method="GET">
             <label for="pagina">Ir para página:</label>
             <input type="number" id="custom_p" name="p" value="{{ pagina.number }}" style="width: 50px;">
-            <input type="submit" id="submit_p" value="Ir!">
+            <button class="btn waves-effect waves-light" type="submit" name="action">Ir
+            </button>
         </form>
+    </div>
+</div>
 
-    {% else %}
-        <p>Sem promoções cadastradas.</p>
-    {% endif %}
-
-    {% else %}
-        <p>Faça login para acessar seus favoritos.</p>
-    {% endif %}
+{% else %}
+<p>Faça login para acessar seus favoritos.</p>
+{% endif %}
 
 {% endblock %}

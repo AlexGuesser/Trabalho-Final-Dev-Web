@@ -1,7 +1,7 @@
 {% extends "index.html" %}
 
 {% block titulo %}Bem vindo! Faça seu login.{% endblock %}
- 
+
 {% block conteudo %}
 
 {% if form.errors %}
@@ -13,25 +13,27 @@
 <p>Não é você? <a href="{% url 'usuarios:logout' %}">Clique aqui para trocar de usuário</a></p>
 
 {% else %}
-    <form method="post" action="{% url 'usuarios:login' %}">
+<form method="post" action="{% url 'usuarios:login' %}">
     {% csrf_token %}
     <table>
-    <tr>
-        <td>{{ form.username.label_tag }}</td>
-        <td>{{ form.username }}</td>
-    </tr>
-    <tr>
-        <td>{{ form.password.label_tag }}</td>
-        <td>{{ form.password }}</td>
-    </tr>
+        <tr>
+            <td>{{ form.username.label_tag }}</td>
+            <td>{{ form.username }}</td>
+        </tr>
+        <tr>
+            <td>{{ form.password.label_tag }}</td>
+            <td>{{ form.password }}</td>
+        </tr>
     </table>
 
-    <input type="submit" value="login">
+    <br>
+    <button class="btn waves-effect waves-light" type="submit" value="Ok" name="action">LOGIN
+    </button>
     <input type="hidden" name="next" value="{{ next }}">
-    </form>
+</form>
 
-    {# Assumes you setup the password_reset view in your URLconf #}
-    <p><a href="{% url 'usuarios:password_reset' %}">Esqueceu sua senha?</a></p>
+{# Assumes you setup the password_reset view in your URLconf #}
+<p><a href="{% url 'usuarios:password_reset' %}">Esqueceu sua senha?</a></p>
 {% endif %}
 
 {% endblock %}
