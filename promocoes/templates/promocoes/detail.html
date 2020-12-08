@@ -1,21 +1,49 @@
-{% extends "index.html" %}
+{% extends "index.html" %} {% block titulo %} {{promocao_em_destaque.nome}}
+{%endblock %} {% block conteudo %}
+<div class="container">
+  <div class="row" style="margin: auto">
+    <div style="margin: auto;width: 600px;">
+      <div class="card">
+        <div class="card-image">
+          <img src="{{promocao_em_destaque.produto.imagem}}" height="342" />
+          <span class="card-title"><strong>{{ promocao_em_destaque.produto }}</strong></span>
+        </div>
+        <div class="card-content">
+          <p>
+            <strong>Descrição: </strong>
+            {{promocao_em_destaque.produto.descrição }}
+          </p>
+          <br />
+          <p>
+            <strong>Categoria: </strong>
+            {{promocao_em_destaque.produto.nome_da_categoria}}
+          </p>
+          <br />
+          <p>
+            <strong>Loja: </strong>
+            {{ promocao_em_destaque.loja }} localizado(a) em
+            {{promocao_em_destaque.loja.cidade }}
+          </p>
+          <br />
+          <p>
+            <strong>Cupom: </strong>
+            {{ promocao_em_destaque.cupom }}
+            {% if perms.promocoes.edit_promocao%}
+            <span style="float: right;">
+              <a href="{% url 'promocoes:edit' id=promocao_em_destaque.id %}"
+                class="waves-effect waves-light btn">Editar</a>
+            </span>
 
-{% block titulo %}{{ promocao_em_destaque.nome }}{% endblock %}
- 
-{% block conteudo %}
-    <br>
-    {{ promocao_em_destaque.produto }}
-    <br>
-    {{ promocao_em_destaque.produto.nome_da_categoria }}
-    <br>
-    {{ promocao_em_destaque.loja }} em {{ promocao_em_destaque.loja.cidade }}/{{ promocao_em_destaque.loja.uf }}
-    <br>
-    R$ {{ promocao_em_destaque.preco }}
-    <br>
-    {{ promocao_em_destaque.cupom }}
-    {% if perms.promocoes.edit_promocao %}
-    <br>
-    <a href="{% url 'promocoes:edit' id=promocao_em_destaque.id %}">Editar</a>
-    {% endif %}
+            {% endif %}
+          </p>
+        </div>
+        <div class="card-action">
+          <h5 style="color: green;">R$ {{ promocao_em_destaque.preco }}</h5>
+        </div>
+      </div>
+    </div>
+  </div>
+  <br />
+</div>
 
 {% endblock %}

@@ -1,41 +1,39 @@
 {% extends "index.html" %}
 
 {% block titulo %}
-    {% if perms.produtos.edit_lojas %}
-        Listando todas as lojas.
-    {% else %}
-        Acesso restrito.
-    {% endif %}
+{% if perms.produtos.edit_lojas %}
+Listando todas as lojas.
+{% else %}
+Acesso restrito.
+{% endif %}
 {% endblock %}
 
 {% block conteudo %}
-    {% if perms.produtos.edit_lojas %}
-    <p>Bem vindo à área administrativa. Selecione uma loja para editar. <a class="waves-effect waves-light btn" href="{% url 'lojas:new' %}">Nova loja</a></p>
-        {% if lista_de_lojas %}
-        <ul class="collection">
-            {% for loja in lista_de_lojas %}
-            <li class="collection-item avatar">
-                    <div style="display: flex; flex-direction: row">
-                      <img
-                        class="materialboxed"
-                        width="150"
-                        heigth="150"
-                        src="https://triunfo.pe.gov.br/pm_tr430/wp-content/uploads/2018/03/sem-foto.jpg"
-                      />
-                <div class="container">
-                    <span class="title"><strong><a href="{% url 'lojas:detail' id=loja.id %}">{{loja.nome}}</a></strong></span> 
-                    <p>{{ loja.cidade }}/{{ loja.uf }}</p>
-                </div>
-            </li>
-            {% endfor %}
-        </ul>
-        {% else %}
-        <p>Sem lojas cadastradas.</p>
-        {% endif %}
-    {% else %}
-    <p>Acesso restrito.</p>
-    {% endif %}
-    {% if perms.lojas.add_loja %}
-    {% endif %}
-    
+{% if perms.produtos.edit_lojas %}
+<p>Bem vindo à área administrativa. Selecione uma loja para editar <a class="waves-effect waves-light btn"
+        href="{% url 'lojas:new' %}">Nova loja</a></p>
+{% if lista_de_lojas %}
+<ul class="collection">
+    {% for loja in lista_de_lojas %}
+    <li class="collection-item avatar">
+        <div style="display: flex; flex-direction: row">
+            <img class="materialboxed" width="150" heigth="150"
+                src="https://triunfo.pe.gov.br/pm_tr430/wp-content/uploads/2018/03/sem-foto.jpg" />
+            <div class="container">
+                <span class="title"><strong><a
+                            href="{% url 'lojas:detail' id=loja.id %}">{{loja.nome}}</a></strong></span>
+                <p>{{ loja.cidade }}/{{ loja.uf }}</p>
+            </div>
+    </li>
+    {% endfor %}
+</ul>
+{% else %}
+<p>Sem lojas cadastradas.</p>
+{% endif %}
+{% else %}
+<p>Acesso restrito.</p>
+{% endif %}
+{% if perms.lojas.add_loja %}
+{% endif %}
+
 {% endblock %}

@@ -1,27 +1,52 @@
 {% extends "index.html" %}
 
 {% block titulo %}
-    {% if perms.produtos.edit_produtos %}
-    {{ produto_em_destaque.nome }}
-    {% else %}
-    Acesso restrito.
-    {% endif %}
+{% if perms.produtos.edit_produtos %}
+{% else %}
+Acesso restrito.
+{% endif %}
 {% endblock %}
- 
+
 {% block conteudo %}
-    
-    {% if perms.produtos.edit_produtos %}
-        <h1>{{ produto_em_destaque.nome }}</h1>
-        <br/>
-        {{ produto_em_destaque.imagem }}
-        <br>
-        {{ produto_em_destaque.descrição }}
-        <br>
-        {{ produto_em_destaque.get_categoria_display }}
-        <br>
-        <a href="{% url 'produtos:edit' id=produto_em_destaque.id %}">Editar</a>
-    {% else %}
-        <p>Acesso restrito.</p>
-    {% endif %}
+{% if perms.produtos.edit_produtos %}
+<div class="container">
+    <div class="row" style="margin: auto">
+        <div style="margin: auto;width: 600px;">
+            <div class="card">
+                <div class="card-image">
+                    <img src="{{produto_em_destaque.imagem}}" height="342" />
+                    <span class="card-title"><strong>{{ produto_em_destaque.nome }}</strong></span>
+                </div>
+                <div class="card-content">
+                    <p>
+                        <strong>Descrição: </strong>
+                        {{ produto_em_destaque.descrição }}
+                    </p>
+                    <br />
+                    <p>
+                        <strong>Categoria: </strong>
+                        {{ produto_em_destaque.get_categoria_display }}
+                        {% if perms.promocoes.edit_promocao%}
+                        <span style="float: right;">
+                            <a href="{% url 'produtos:edit' id=produto_em_destaque.id %}"
+                                class="waves-effect waves-light btn">Editar</a>
+                        </span>
+
+                        {% endif %}
+                    </p>
+                    <br />
+                    <br />
+                </div>
+            </div>
+        </div>
+    </div>
+    <br />
+</div>
+
+
+
+{% else %}
+<p>Acesso restrito.</p>
+{% endif %}
 
 {% endblock %}
