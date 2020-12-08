@@ -2,6 +2,7 @@ from django.db import models
 
 # Create your models here.
 
+
 class Produto(models.Model):
     CATEGORIAS_DISPONIVEIS = (
         ("0", "Hambúrguer de Carne"),
@@ -10,8 +11,8 @@ class Produto(models.Model):
         ("3", "Sobremesa"),
         ("4", "Vegetariano"),
     )
-    nome = models.CharField(max_length=200)
-    imagem = models.CharField(max_length=255) #link pra uma imagem
+    nome = models.CharField(max_length=200, unique=True)
+    imagem = models.CharField(max_length=255)  # link pra uma imagem
     descrição = models.TextField()
     categoria = models.CharField(max_length=4, choices=CATEGORIAS_DISPONIVEIS)
 

@@ -3,8 +3,9 @@ from django.core.validators import EmailValidator
 
 # Create your models here.
 
+
 class Loja(models.Model):
-    nome = models.CharField(max_length=100)
+    nome = models.CharField(max_length=100, unique=True)
     cidade = models.CharField(max_length=100)
     uf = models.CharField(max_length=2)
     email = models.EmailField(max_length=100)
