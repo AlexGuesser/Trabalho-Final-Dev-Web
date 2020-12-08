@@ -1,26 +1,54 @@
 {% extends "index.html" %}
 
 {% block titulo %}
-    {% if perms.produtos.edit_lojas %}
-    {{ loja_em_destaque.nome }}
-    {% else %}
-    Acesso restrito.
-    {% endif %}
+{% if perms.produtos.edit_lojas %}
+{{ loja_em_destaque.nome }}
+{% else %}
+Acesso restrito.
+{% endif %}
 {% endblock %}
 
 {% block conteudo %}
-    {% if perms.produtos.edit_lojas %}
-        <br>
-        {{ loja_em_destaque.nome }}
-        <br>
-        {{ loja_em_destaque.cidade }}/{{ loja_em_destaque.uf }}
-        <br>
-        {{ loja_em_destaque.email }}
-        <br>    
-        <a href="{% url 'lojas:edit' id=loja_em_destaque.id %}">Editar</a>
-        
-    {% else %}
-    <p>Acesso restrito.</p>
-    {% endif %}
+{% if perms.produtos.edit_lojas %}
+
+<div class="container">
+    <div class="row" style="margin: auto">
+        <div style="margin: auto;width: 600px;">
+            <div class="card">
+                <div class="card-image">
+                    <img src="https://triunfo.pe.gov.br/pm_tr430/wp-content/uploads/2018/03/sem-foto.jpg"
+                        height="342" />
+                    <span class="card-title" style="color: black;"><strong>{{ loja_em_destaque.nome }}</strong></span>
+                </div>
+                <div class="card-content">
+                    <p>
+                        <strong>Cidade: </strong>
+                        {{ loja_em_destaque.cidade }}/{{ loja_em_destaque.uf }}
+                    </p>
+                    <br />
+                    <p>
+                        <strong>Email: </strong>
+                        {{ loja_em_destaque.email }}
+                        {% if perms.promocoes.edit_promocao%}
+                        <span style="float: right;">
+                            <a href="{% url 'lojas:edit' id=loja_em_destaque.id %}"
+                                class="waves-effect waves-light btn">Editar</a>
+                        </span>
+
+                        {% endif %}
+                    </p>
+                    <br />
+                    <br />
+                </div>
+            </div>
+        </div>
+    </div>
+    <br />
+</div>
+
+
+{% else %}
+<p>Acesso restrito.</p>
+{% endif %}
 
 {% endblock %}
